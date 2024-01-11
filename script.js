@@ -1,3 +1,14 @@
+let a = 2;
+//console.log(a);
+a = String(a); // Converts a (2) into a string
+a = a.padStart(2, "0"); // Adds padding to 2 if there is not 2 digits -- Example 10 would still equal 10. But 2 would equal 02
+//console.log(a);
+
+let b = 3;
+b = String(b).padStart(2, "0");
+
+//console.log(`Lord of the rings - S${a}E${b}`);
+
 function getAllEpisodes() {
   return [
     {
@@ -1758,13 +1769,44 @@ function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
 }
-
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
-  // console.log(episodeList[0].name);
-  const test = episodeList.forEach((episode) => {
-    console.log(episode.id);
-  });
+  for (let i = 0; i < episodeList.length; i++) {
+    //console.log(episodeList[i].name);
+    const card = document.createElement("div");
+    card.classList.add("title-dive");
+    rootElem.appendChild(card);
+
+    const titleDiv = document.createElement("div");
+    titleDiv.classList.add("title-name-season");
+    card.appendChild(titleDiv);
+
+    const picSummeryDiv = document.createElement("div");
+    picSummeryDiv.classList.add("pic-summery");
+    card.appendChild(picSummeryDiv);
+
+    const seasonName = episodeList[i].name;
+    const seasonNumber = episodeList[i].number;
+    const convertSeasonNumberToStr = String(seasonNumber).padStart(2, "0");
+
+    const convertSeasonToStr = String(episodeList[i].season).padStart(2, "0");
+    const episodeCode = `${seasonName} S${convertSeasonToStr}-E${convertSeasonNumberToStr}`;
+
+    const season = document.createElement("h1");
+    season.textContent = episodeCode;
+    season.classList.add("title");
+    titleDiv.appendChild(season);
+
+    const imgElement = document.createElement("img");
+    imgElement.setAttribute("src", episodeList[i].image.medium);
+    picSummeryDiv.appendChild(imgElement);
+
+    const summary = document.createElement("h4");
+    summary.innerHTML = episodeList[i].summary;
+    summary.classList.add("summary");
+    picSummeryDiv.appendChild(summary);
+  }
 }
+setup();
 
 window.onload = setup;
