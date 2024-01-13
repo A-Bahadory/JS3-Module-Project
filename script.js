@@ -1769,21 +1769,20 @@ function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
 }
+
+function createClassAndElement(tag, className) {
+  const element = document.createElement(tag);
+  if (className) {
+    element.classList.add(className);
+  }
+  return element;
+}
+
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
   for (let i = 0; i < episodeList.length; i++) {
-    //console.log(episodeList[i].name);
-    const card = document.createElement("div");
-    card.classList.add("title-div");
+    const card = createClassAndElement("div", "title-div");
     rootElem.appendChild(card);
-
-    const titleDiv = document.createElement("div");
-    titleDiv.classList.add("title-name-season");
-    card.appendChild(titleDiv);
-
-    const picSummeryDiv = document.createElement("div");
-    picSummeryDiv.classList.add("pic-summery");
-    card.appendChild(picSummeryDiv);
 
     const seasonName = episodeList[i].name;
     const seasonNumber = episodeList[i].number;
@@ -1792,19 +1791,17 @@ function makePageForEpisodes(episodeList) {
     const convertSeasonToStr = String(episodeList[i].season).padStart(2, "0");
     const episodeCode = `${seasonName} S${convertSeasonToStr}-E${convertSeasonNumberToStr}`;
 
-    const season = document.createElement("h1");
+    const season = createClassAndElement("h1", "title");
     season.textContent = episodeCode;
-    season.classList.add("title");
-    titleDiv.appendChild(season);
+    card.appendChild(season);
 
-    const imgElement = document.createElement("img");
+    const imgElement = createClassAndElement("img");
     imgElement.setAttribute("src", episodeList[i].image.medium);
-    picSummeryDiv.appendChild(imgElement);
+    card.appendChild(imgElement);
 
-    const summary = document.createElement("h4");
+    const summary = createClassAndElement("h4");
     summary.innerHTML = episodeList[i].summary;
-    summary.classList.add("summary");
-    picSummeryDiv.appendChild(summary);
+    card.appendChild(summary);
   }
 }
 setup();
