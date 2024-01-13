@@ -12,10 +12,11 @@
 
 .layout {
   display: grid;
-  grid-template-rows: repeat(73, 34rem);
+  grid-template-rows: repeat(49, 35rem);
   grid-template-columns: repeat(3, 1fr);
-  gap: 4rem;
+  gap: 2rem;
   padding: 2rem;
+  background-color: #161e3b;
 }
 .title-name-season {
   display: flex;
@@ -29,6 +30,8 @@
   flex-direction: column;
   justify-content: center;
   padding: 2rem;
+  color: honeydew;
+  font-family: monospace;
 }
 img {
   border-radius: 20px;
@@ -41,14 +44,20 @@ img {
 }
 .title {
   font-size: 25px;
-  font-family: sans-serif;
+  font-family: math;
   padding: 0.9rem;
+  color: honeydew;
 }
-
-h2 {
-  background-color: orange;
+.title-div {
+  /* border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem; */
+  background-color: #1c274c;
+  transition: margin cubic-bezier(0.6, -0.28, 0.74, 0.05) 0.8s;
 }
-
-h4 {
-  background-color: purple;
+.title-div:hover {
+  background-color: #1e3252;
+  border: none;
+  border-radius: 3rem;
+  margin: 2rem;
+  font-size: small;
 }

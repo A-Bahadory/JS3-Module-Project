@@ -1774,7 +1774,7 @@ function makePageForEpisodes(episodeList) {
   for (let i = 0; i < episodeList.length; i++) {
     //console.log(episodeList[i].name);
     const card = document.createElement("div");
-    card.classList.add("title-dive");
+    card.classList.add("title-div");
     rootElem.appendChild(card);
 
     const titleDiv = document.createElement("div");
