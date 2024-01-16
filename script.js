@@ -1762,6 +1762,7 @@ function getAllEpisodes() {
         },
       },
     },
+    //test object
   ];
 }
 
@@ -1804,6 +1805,11 @@ function makePageForEpisodes(episodeList) {
     card.appendChild(summary);
   }
 }
-setup();
+
+const footerWrapper = createClassAndElement("div", "footer-wrapper");
+document.body.append(footerWrapper);
+const footer = createClassAndElement("footer");
+footer.textContent = "this is a domo footer";
+footerWrapper.appendChild(footer);
 
 window.onload = setup;
