@@ -1758,6 +1758,7 @@ function getAllEpisodes() {
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
+  createFooter();
 }
 
 function createClassAndElement(tag, className) {
@@ -1795,10 +1796,12 @@ function makePageForEpisodes(episodeList) {
   }
 }
 
-const footerWrapper = createClassAndElement("div", "footer-wrapper");
-document.body.append(footerWrapper);
-const footer = createClassAndElement("footer");
-footer.textContent = "this is a domo footer";
-footerWrapper.appendChild(footer);
+function createFooter() {
+  const footerWrapper = createClassAndElement("div", "footer-wrapper");
+  const footer = createClassAndElement("footer");
+  footer.innerHTML = `Data originally sourced by <a href="https://tvmaze.com/" target="_blank">TV Maze</a>`;
+  footerWrapper.appendChild(footer);
+  document.body.append(footerWrapper);
+}
 
 window.onload = setup;
