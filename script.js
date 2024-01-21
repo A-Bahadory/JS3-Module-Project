@@ -1,14 +1,3 @@
-let a = 2;
-//console.log(a);
-a = String(a); // Converts a (2) into a string
-a = a.padStart(2, "0"); // Adds padding to 2 if there is not 2 digits -- Example 10 would still equal 10. But 2 would equal 02
-//console.log(a);
-
-let b = 3;
-b = String(b).padStart(2, "0");
-
-//console.log(`Lord of the rings - S${a}E${b}`);
-
 function getAllEpisodes() {
   return [
     {
