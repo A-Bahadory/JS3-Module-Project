@@ -1,13 +1,10 @@
-let a = 2;
-//console.log(a);
-a = String(a); // Converts a (2) into a string
-a = a.padStart(2, "0"); // Adds padding to 2 if there is not 2 digits -- Example 10 would still equal 10. But 2 would equal 02
-//console.log(a);
-
-let b = 3;
-b = String(b).padStart(2, "0");
-
-//console.log(`Lord of the rings - S${a}E${b}`);
+const episodeSelector = document.querySelector("#episodeSelect");
+const searchField = document.getElementById("episodeSearch");
+const episodeDropDown = document.querySelector("#episodeSelect");
+const layout = document.querySelector(".layout");
+const rootElem = document.getElementById("root");
+const displayingTotal = document.createElement("p");
+displayingTotal.classList.add("displayingTotal");
 
 function getAllEpisodes() {
   return [
@@ -1766,9 +1763,63 @@ function getAllEpisodes() {
   ];
 }
 
+function searchEpisodes() {
+  searchField.addEventListener("input", searchEpisodes);
+
+  const episodes = getAllEpisodes();
+  const searchTerm = searchField.value.toLowerCase();
+
+  const filteredEpisodes = episodes.filter((episode) =>
+    episode.name.toLowerCase().includes(searchTerm)
+  );
+
+  displayingTotal.textContent = `Displaying ${filteredEpisodes.length}/73`;
+
+  clearRender();
+
+  episodeDropDown.insertAdjacentElement("afterend", displayingTotal);
+
+  makePageForEpisodes(filteredEpisodes);
+}
+
+function selectEpisodes() {
+  const episodes = getAllEpisodes();
+
+  episodes.forEach((episode) => {
+    const optionElement = document.createElement("option");
+    optionElement.textContent = episode.name;
+    episodeDropDown.appendChild(optionElement);
+  });
+
+  episodeDropDown.addEventListener("change", (event) => {
+    const episodeSelected = event.target.value;
+
+    if (episodeSelected === "Please Select...") {
+      clearRender();
+      const allEpisodes = getAllEpisodes();
+      makePageForEpisodes(allEpisodes);
+      displayingTotal.textContent = `Displaying ${allEpisodes.length}/73`;
+    } else {
+      const filteredEpisodes = episodes.filter(
+        (episode) => episode.name === episodeSelected
+      );
+      clearRender();
+      displayingTotal.textContent = "";
+      makePageForEpisodes(filteredEpisodes);
+    }
+  });
+}
+
+function clearRender() {
+  layout.innerHTML = "";
+}
+
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
+  searchEpisodes();
+  selectEpisodes();
+  createFooter();
 }
 
 function createClassAndElement(tag, className) {
@@ -1780,36 +1831,42 @@ function createClassAndElement(tag, className) {
 }
 
 function makePageForEpisodes(episodeList) {
-  const rootElem = document.getElementById("root");
-  for (let i = 0; i < episodeList.length; i++) {
+  episodeList.forEach((episode) => {
     const card = createClassAndElement("div", "title-div");
-    rootElem.appendChild(card);
+    const anchorTag = createClassAndElement("a", "");
+    anchorTag.setAttribute("href", episode.url);
+    anchorTag.setAttribute("target", "_blank");
 
-    const seasonName = episodeList[i].name;
-    const seasonNumber = episodeList[i].number;
+    rootElem.appendChild(card);
+    card.appendChild(anchorTag);
+
+    const seasonName = episode.name;
+    const seasonNumber = episode.number;
     const convertSeasonNumberToStr = String(seasonNumber).padStart(2, "0");
 
-    const convertSeasonToStr = String(episodeList[i].season).padStart(2, "0");
+    const convertSeasonToStr = String(episode.season).padStart(2, "0");
     const episodeCode = `${seasonName} S${convertSeasonToStr}-E${convertSeasonNumberToStr}`;
 
     const season = createClassAndElement("h1", "title");
     season.textContent = episodeCode;
-    card.appendChild(season);
+    anchorTag.appendChild(season);
 
     const imgElement = createClassAndElement("img");
-    imgElement.setAttribute("src", episodeList[i].image.medium);
-    card.appendChild(imgElement);
+    imgElement.setAttribute("src", episode.image.medium);
+    anchorTag.appendChild(imgElement);
 
     const summary = createClassAndElement("h4");
-    summary.innerHTML = episodeList[i].summary;
-    card.appendChild(summary);
-  }
+    summary.innerHTML = episode.summary;
+    anchorTag.appendChild(summary);
+  });
 }
 
-const footerWrapper = createClassAndElement("div", "footer-wrapper");
-document.body.append(footerWrapper);
-const footer = createClassAndElement("footer");
-footer.textContent = "this is a domo footer";
-footerWrapper.appendChild(footer);
+function createFooter() {
+  const footerWrapper = createClassAndElement("div", "footer-wrapper");
+  const footer = createClassAndElement("footer");
+  footer.innerHTML = `Data originally sourced by <a href="https://tvmaze.com/" target="_blank">TV Maze</a>`;
+  footerWrapper.appendChild(footer);
+  document.body.append(footerWrapper);
+}
 
 window.onload = setup;
