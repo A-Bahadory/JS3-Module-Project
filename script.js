@@ -1755,9 +1755,71 @@ function getAllEpisodes() {
   ];
 }
 
+function searchEpisodes() {
+  const searchField = document.getElementById("episodeSearch");
+  searchField.addEventListener("input", searchEpisodes);
+
+  const episodes = getAllEpisodes();
+  const searchTerm = searchField.value.toLowerCase();
+
+  const filteredEpisodes = episodes.filter((episode) =>
+    episode.name.toLowerCase().includes(searchTerm)
+  );
+
+  clearRender();
+
+  makePageForEpisodes(filteredEpisodes);
+}
+
+function selectEpisodes() {
+  const episodeSelector = document.querySelector("#episodeSelect");
+  const episodes = getAllEpisodes();
+
+  episodes.forEach((episode) => {
+    const optionElement = document.createElement("option");
+    optionElement.textContent = episode.name;
+    episodeSelector.appendChild(optionElement);
+  });
+
+  episodeSelector.addEventListener("change", (event) => {
+    const episodeSelected = event.target.value;
+
+    if (episodeSelected === "Please Select...") {
+      clearRender();
+      const allEpisodes = getAllEpisodes();
+      makePageForEpisodes(allEpisodes);
+    } else {
+      const filteredEpisodes = episodes.filter(
+        (episode) => episode.name === episodeSelected
+      );
+      clearRender();
+      makePageForEpisodes(filteredEpisodes);
+    }
+  });
+  // episodeSelector.addEventListener("change", function (event) {
+  //   console.log(event.target.value);
+  // });
+}
+
+selectEpisodes();
+
+function clearRender() {
+  const layout = document.querySelector(".layout");
+  layout.innerHTML = "";
+}
+
+// Creating Search field
+
+// 1. Extract text from search field
+//
+
+// 2. Filter episodes based upon search field
+// 3. Render new films based upon search
+
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
+  searchEpisodes();
   createFooter();
 }
 

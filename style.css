@@ -27,6 +27,14 @@ a {
   padding-left: 0.6rem;
 }
 
+#episodeSelect {
+  margin-left: 0.8rem;
+
+  width: 14rem;
+  height: 2.4rem;
+  padding-left: 0.6rem;
+}
+
 .title-name-season {
   display: flex;
   flex-direction: row;
