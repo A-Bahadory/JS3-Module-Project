@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #161e3b;
+}
+
 a {
   color: honeydew;
 }
@@ -10,10 +14,17 @@ a {
   display: grid;
   grid-template-rows: repeat(25, 37rem);
   grid-template-columns: repeat(3, 1fr);
-
   gap: 2rem;
-  padding: 13rem;
+  padding: 4rem 13rem;
   background-color: #161e3b;
+}
+
+#episodeSearch {
+  margin-left: 13rem;
+  margin-top: 7rem;
+  width: 14rem;
+  height: 2.4rem;
+  padding-left: 0.6rem;
 }
 
 .title-name-season {
