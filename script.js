@@ -1,3 +1,11 @@
+const episodeSelector = document.querySelector("#episodeSelect");
+const searchField = document.getElementById("episodeSearch");
+const episodeDropDown = document.querySelector("#episodeSelect");
+const layout = document.querySelector(".layout");
+const rootElem = document.getElementById("root");
+const displayingTotal = document.createElement("p");
+displayingTotal.classList.add("displayingTotal");
+
 function getAllEpisodes() {
   return [
     {
@@ -1756,7 +1764,6 @@ function getAllEpisodes() {
 }
 
 function searchEpisodes() {
-  const searchField = document.getElementById("episodeSearch");
   searchField.addEventListener("input", searchEpisodes);
 
   const episodes = getAllEpisodes();
@@ -1766,60 +1773,52 @@ function searchEpisodes() {
     episode.name.toLowerCase().includes(searchTerm)
   );
 
+  displayingTotal.textContent = `Displaying ${filteredEpisodes.length}/73`;
+
   clearRender();
+
+  episodeDropDown.insertAdjacentElement("afterend", displayingTotal);
 
   makePageForEpisodes(filteredEpisodes);
 }
 
 function selectEpisodes() {
-  const episodeSelector = document.querySelector("#episodeSelect");
   const episodes = getAllEpisodes();
 
   episodes.forEach((episode) => {
     const optionElement = document.createElement("option");
     optionElement.textContent = episode.name;
-    episodeSelector.appendChild(optionElement);
+    episodeDropDown.appendChild(optionElement);
   });
 
-  episodeSelector.addEventListener("change", (event) => {
+  episodeDropDown.addEventListener("change", (event) => {
     const episodeSelected = event.target.value;
 
     if (episodeSelected === "Please Select...") {
       clearRender();
       const allEpisodes = getAllEpisodes();
       makePageForEpisodes(allEpisodes);
+      displayingTotal.textContent = `Displaying ${allEpisodes.length}/73`;
     } else {
       const filteredEpisodes = episodes.filter(
         (episode) => episode.name === episodeSelected
       );
       clearRender();
+      displayingTotal.textContent = "";
       makePageForEpisodes(filteredEpisodes);
     }
   });
-  // episodeSelector.addEventListener("change", function (event) {
-  //   console.log(event.target.value);
-  // });
 }
-
-selectEpisodes();
 
 function clearRender() {
-  const layout = document.querySelector(".layout");
   layout.innerHTML = "";
 }
-
-// Creating Search field
-
-// 1. Extract text from search field
-//
-
-// 2. Filter episodes based upon search field
-// 3. Render new films based upon search
 
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
   searchEpisodes();
+  selectEpisodes();
   createFooter();
 }
 
@@ -1832,30 +1831,34 @@ function createClassAndElement(tag, className) {
 }
 
 function makePageForEpisodes(episodeList) {
-  const rootElem = document.getElementById("root");
-  for (let i = 0; i < episodeList.length; i++) {
+  episodeList.forEach((episode) => {
     const card = createClassAndElement("div", "title-div");
-    rootElem.appendChild(card);
+    const anchorTag = createClassAndElement("a", "");
+    anchorTag.setAttribute("href", episode.url);
+    anchorTag.setAttribute("target", "_blank");
 
-    const seasonName = episodeList[i].name;
-    const seasonNumber = episodeList[i].number;
+    rootElem.appendChild(card);
+    card.appendChild(anchorTag);
+
+    const seasonName = episode.name;
+    const seasonNumber = episode.number;
     const convertSeasonNumberToStr = String(seasonNumber).padStart(2, "0");
 
-    const convertSeasonToStr = String(episodeList[i].season).padStart(2, "0");
+    const convertSeasonToStr = String(episode.season).padStart(2, "0");
     const episodeCode = `${seasonName} S${convertSeasonToStr}-E${convertSeasonNumberToStr}`;
 
     const season = createClassAndElement("h1", "title");
     season.textContent = episodeCode;
-    card.appendChild(season);
+    anchorTag.appendChild(season);
 
     const imgElement = createClassAndElement("img");
-    imgElement.setAttribute("src", episodeList[i].image.medium);
-    card.appendChild(imgElement);
+    imgElement.setAttribute("src", episode.image.medium);
+    anchorTag.appendChild(imgElement);
 
     const summary = createClassAndElement("h4");
-    summary.innerHTML = episodeList[i].summary;
-    card.appendChild(summary);
-  }
+    summary.innerHTML = episode.summary;
+    anchorTag.appendChild(summary);
+  });
 }
 
 function createFooter() {

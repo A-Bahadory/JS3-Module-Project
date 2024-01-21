@@ -4,6 +4,7 @@
 
 body {
   background-color: #161e3b;
+  color: honeydew;
 }
 
 a {
@@ -35,6 +36,11 @@ a {
   padding-left: 0.6rem;
 }
 
+.displayingTotal {
+  display: inline;
+  margin-left: 2rem;
+}
+
 .title-name-season {
   display: flex;
   flex-direction: row;
@@ -47,7 +53,6 @@ a {
   flex-direction: column;
   justify-content: center;
   padding: 1rem;
-  color: honeydew;
   font-family: monospace;
 }
 img {
@@ -63,7 +68,6 @@ img {
   font-size: 21px;
   font-family: math;
   padding: 0.9rem;
-  color: honeydew;
 }
 .title-div {
   background-color: #1c274c;
@@ -71,6 +75,7 @@ img {
   display: grid;
   grid-template-rows: 6rem 10rem 17rem;
   justify-items: center;
+  cursor: pointer;
 }
 .title-div:hover {
   background-color: #1e3252;
@@ -80,7 +85,6 @@ img {
   font-size: small;
 }
 h4 {
-  color: honeydew;
   padding: 0.3rem;
   padding-top: 2rem;
 }
@@ -93,5 +97,5 @@ h4 {
   position: fixed;
   bottom: 0;
   width: 100%;
-  color: honeydew;
+  align-items: center;
 }
