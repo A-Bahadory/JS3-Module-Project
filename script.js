@@ -1,13 +1,27 @@
-let a = 2;
-//console.log(a);
-a = String(a); // Converts a (2) into a string
-a = a.padStart(2, "0"); // Adds padding to 2 if there is not 2 digits -- Example 10 would still equal 10. But 2 would equal 02
-//console.log(a);
+const rootElem = document.getElementById("root");
+const searchInput = document.querySelector("#search-input");
 
-let b = 3;
-b = String(b).padStart(2, "0");
+searchInput.addEventListener("input", function () {
+  const searchValue = searchInput.value;
+  const filteredEpisodes = filterEpisodesBySearchTerm(searchValue);
+  const makeCard = makePageForEpisodes(filteredEpisodes);
+});
 
-//console.log(`Lord of the rings - S${a}E${b}`);
+function filterEpisodesBySearchTerm(searchTerm) {
+  const allEpisodes = getAllEpisodes();
+  const filteredEpisodes = allEpisodes.filter((episode) => {
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    const lowerSummary = episode.summary ? episode.summary.toLowerCase() : "";
+    const lowerName = episode.name ? episode.name.toLowerCase() : "";
+
+    return (
+      lowerSummary.includes(lowerSearchTerm) ||
+      lowerName.includes(lowerSearchTerm)
+    );
+  });
+
+  return filteredEpisodes;
+}
 
 function getAllEpisodes() {
   return [
@@ -1780,7 +1794,6 @@ function createClassAndElement(tag, className) {
 }
 
 function makePageForEpisodes(episodeList) {
-  const rootElem = document.getElementById("root");
   for (let i = 0; i < episodeList.length; i++) {
     const card = createClassAndElement("div", "title-div");
     rootElem.appendChild(card);
