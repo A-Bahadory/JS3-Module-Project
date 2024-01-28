@@ -1,12 +1,52 @@
 const rootElem = document.getElementById("root");
+const searchWrapper = document.querySelector(".search-wrapper");
 const searchInput = document.querySelector("#search-input");
+const episodeNumber = document.querySelector(".episodes-numbers");
+const inputWrapper = document.querySelector(".input-wrapper");
+inputWrapper.appendChild(episodeNumber);
+let episodeSelect = document.getElementById("episodeSelect");
+
+let totalEpisodes = 0;
 
 searchInput.addEventListener("input", function () {
   const searchValue = searchInput.value;
   const filteredEpisodes = filterEpisodesBySearchTerm(searchValue);
-  const makeCard = makePageForEpisodes(filteredEpisodes);
+  console.log(filteredEpisodes);
+  clearRender();
+  makePageForEpisodes(filteredEpisodes);
 });
 
+let episodes = getAllEpisodes();
+
+// Populate the select element with episode titles
+//drop down menu work last night
+function getEpisodeTitleAndNumber() {
+  for (let i = 0; i < episodes.length; i++) {
+    let episode = episodes[i];
+    let option = document.createElement("option");
+    option.value = episode.id;
+    option.text =
+      "Season " +
+      episode.season +
+      ", Episode " +
+      episode.number +
+      ": " +
+      episode.name;
+    episodeSelect.appendChild(option);
+  }
+  episodeSelect.addEventListener("change", (epi) => {
+    const select = epi.target.value;
+    if (select === "select episode name") {
+      clearRender();
+      makePageForEpisodes(episodes);
+    } else {
+      makePageForEpisodes();
+    }
+  });
+}
+
+getEpisodeTitleAndNumber();
+//drop down menu work last night
 function filterEpisodesBySearchTerm(searchTerm) {
   const allEpisodes = getAllEpisodes();
   const filteredEpisodes = allEpisodes.filter((episode) => {
@@ -1782,6 +1822,7 @@ function getAllEpisodes() {
 
 function setup() {
   const allEpisodes = getAllEpisodes();
+  totalEpisodes = allEpisodes.length;
   makePageForEpisodes(allEpisodes);
 }
 
@@ -1794,6 +1835,7 @@ function createClassAndElement(tag, className) {
 }
 
 function makePageForEpisodes(episodeList) {
+  episodeNumber.textContent = `episodes number ${episodeList.length}/${totalEpisodes}`;
   for (let i = 0; i < episodeList.length; i++) {
     const card = createClassAndElement("div", "title-div");
     rootElem.appendChild(card);
@@ -1824,5 +1866,11 @@ document.body.append(footerWrapper);
 const footer = createClassAndElement("footer");
 footer.textContent = "this is a domo footer";
 footerWrapper.appendChild(footer);
+
+function clearRender() {
+  document.querySelectorAll(".title-div").forEach((div) => {
+    div.remove();
+  });
+}
 
 window.onload = setup;
