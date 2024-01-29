@@ -5,7 +5,13 @@ const episodeNumber = document.querySelector(".episodes-numbers");
 const inputWrapper = document.querySelector(".input-wrapper");
 inputWrapper.appendChild(episodeNumber);
 let episodeSelect = document.getElementById("episodeSelect");
+const homePagBtn = document.querySelector(".btn");
+homePagBtn.addEventListener("click", function () {
+  clearRender();
+  makePageForEpisodes(btnEpi);
+});
 
+let btnEpi = getAllEpisodes();
 let totalEpisodes = 0;
 
 searchInput.addEventListener("input", function () {
@@ -16,37 +22,29 @@ searchInput.addEventListener("input", function () {
   makePageForEpisodes(filteredEpisodes);
 });
 
-let episodes = getAllEpisodes();
-
 // Populate the select element with episode titles
 //drop down menu work last night
 function getEpisodeTitleAndNumber() {
-  for (let i = 0; i < episodes.length; i++) {
-    let episode = episodes[i];
+  getAllEpisodes().forEach((episode) => {
     let option = document.createElement("option");
-    option.value = episode.id;
-    option.text =
-      "Season " +
-      episode.season +
-      ", Episode " +
-      episode.number +
-      ": " +
-      episode.name;
+    option.text = `Season ${episode.season} Episode ${episode.number} : ${episode.name}`;
+    // option.text = episode.name;
     episodeSelect.appendChild(option);
-  }
+  });
+
   episodeSelect.addEventListener("change", (epi) => {
-    const select = epi.target.value;
-    if (select === "select episode name") {
-      clearRender();
-      makePageForEpisodes(episodes);
-    } else {
-      makePageForEpisodes();
-    }
+    const colon = epi.target.value.indexOf(":");
+    const episodeName = epi.target.value.slice((0, colon + 2));
+    //console.log(episodeName);
+    const filEpi = getAllEpisodes().filter(
+      (episode) => episode.name === episodeName
+    );
+
+    clearRender();
+    makePageForEpisodes(filEpi);
   });
 }
 
-getEpisodeTitleAndNumber();
-//drop down menu work last night
 function filterEpisodesBySearchTerm(searchTerm) {
   const allEpisodes = getAllEpisodes();
   const filteredEpisodes = allEpisodes.filter((episode) => {
@@ -1824,6 +1822,7 @@ function setup() {
   const allEpisodes = getAllEpisodes();
   totalEpisodes = allEpisodes.length;
   makePageForEpisodes(allEpisodes);
+  getEpisodeTitleAndNumber();
 }
 
 function createClassAndElement(tag, className) {
