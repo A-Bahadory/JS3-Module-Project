@@ -1834,7 +1834,7 @@ function createClassAndElement(tag, className) {
 }
 
 function makePageForEpisodes(episodeList) {
-  episodeNumber.textContent = `episodes number ${episodeList.length}/${totalEpisodes}`;
+  episodeNumber.textContent = `Episodes Number ${episodeList.length}/${totalEpisodes}`;
   for (let i = 0; i < episodeList.length; i++) {
     const card = createClassAndElement("div", "title-div");
     rootElem.appendChild(card);
