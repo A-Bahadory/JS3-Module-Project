@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
 }
-
+/* nave bar style section */
 .input-wrapper {
   padding: 1rem;
   display: flex;
@@ -67,16 +67,30 @@ svg:hover {
   fill: red;
 }
 
+/* layout style section */
+
 .layout {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, auto));
   gap: 3rem;
   padding: 2rem;
   background-color: black;
-  /* #161e3b */
 }
 
 .title-name-season {
+}
+
+img {
+  grid-column: 1/-1;
+  grid-row: 2/3;
+  height: -webkit-fill-available;
+  box-shadow: 1px 13px 8px 9px #00000026;
+  transition: transform 0.3s ease-in-out; /* Added transition for smooth effect */
+}
+
+.title-div:hover img {
+  transform: scale(1.05); /* Increased size on hover */
+  box-shadow: 1px 4px 46px 15px #026;
 }
 
 .pic-summery {
@@ -116,6 +130,8 @@ h4 {
   padding: 0.3rem;
 }
 
+/* footer style section */
+
 .footer-wrapper {
   display: grid;
   grid-template-rows: 7rem;
@@ -126,17 +142,5 @@ h4 {
   width: 100%;
   color: honeydew;
   margin-top: 3rem;
-}
-
-img {
-  grid-column: 1/-1;
-  grid-row: 2/3;
-  height: 20rem;
-  box-shadow: 1px 13px 8px 9px #00000026;
-  transition: transform 0.3s ease-in-out; /* Added transition for smooth effect */
-}
-
-.title-div:hover img {
-  transform: scale(1.05); /* Increased size on hover */
-  box-shadow: 1px 4px 46px 15px #026;
+  border: yellow solid 4px;
 }

@@ -6,25 +6,40 @@ const inputWrapper = document.querySelector(".input-wrapper");
 inputWrapper.appendChild(episodeNumber);
 let episodeSelect = document.getElementById("episodeSelect");
 const homePageBtn = document.querySelector(".btn");
-const dropdown = document.getElementById("showDropdown");
+const showDropDown = document.getElementById("showDropdown");
 
-// fetch("https://api.tvmaze.com/shows")
-//   .then((response) => response.json())
-//   .then((data) => {
-//     data.forEach((show) => {
-//       const option = document.createElement("option");
-//       option.value = show.id;
-//       option.textContent = `ID-Number ${show.id} : ${show.name}`;
-//       dropdown.appendChild(option);
-//       //console.log(data);
-//     });
-//   })
-//   .catch((error) => console.error("Error fetching shows:", error));
+async function fetchShows() {
+  await fetch("https://api.tvmaze.com/shows")
+    .then((response) => response.json())
+    .then((data) => {
+      data.forEach((show) => {
+        const option = document.createElement("option");
+        option.value = show.id;
+        option.textContent = `ID-Number ${show.id} : ${show.name}`;
+        showDropDown.appendChild(option);
+      });
+    })
+    .catch((error) => console.error("Error fetching shows:", error));
+}
 
-// dropdown.addEventListener("change", function () {
+async function fetchEpisodes(currentShowsID) {
+  try {
+    const res = await fetch(
+      `https://api.tvmaze.com/shows/${currentShowsID}/episodes`
+    );
+    if (!res.ok) {
+      throw new Error("Could not fetch episodes data");
+    } else {
+      return res.json();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// showDropDown.addEventListener("change", async function () {
 //   clearRender();
-//   makePageForEpisodesShows(dropdown);
-
+//   makePageForEpisodes(showDropDown);
 //   //console.log("Dropdown changed:", dropdown.value);
 // });
 
@@ -36,13 +51,13 @@ homePageBtn.addEventListener("click", function () {
   });
 });
 
-async function getAllEpisodes() {
-  const movieUrl = "https://api.tvmaze.com/shows/82/episodes";
-  const allEpisodes = await fetch(movieUrl).then((response) => {
-    return response.json();
-  });
-  return allEpisodes;
-}
+// async function getAllEpisodes() {
+//   const movieUrl = "";
+//   const allEpisodes = await fetch(movieUrl).then((response) => {
+//     return response.json();
+//   });
+//   return allEpisodes;
+// }
 
 let btnEpi = getAllEpisodes();
 let totalEpisodes = 0;
@@ -61,7 +76,7 @@ function getEpisodeTitleAndNumber() {
     const allEpisodes = data;
     allEpisodes.forEach((episode) => {
       let option = document.createElement("option");
-      option.text = ` Episode ${episode.id} : ${episode.name}`;
+      option.text = ` Show ${episode.id} : ${episode.name}`;
       // option.text = episode.name;
       episodeSelect.appendChild(option);
     });
@@ -76,6 +91,18 @@ function getEpisodeTitleAndNumber() {
     );
     clearRender();
     makePageForEpisodes(filEpi);
+
+    const locateEpisode = filEpi.find((episode) => episode);
+    const episodesID = locateEpisode.id;
+    const currentShowsData = await fetchEpisodes(episodesID);
+    clearRender();
+    makePageForEpisodes(currentShowsData);
+
+    currentShowsData.forEach((episode) => {
+      const createOptions = document.createElement("option");
+      createOptions.textContent = episode.name;
+      showDropDown.appendChild(createOptions);
+    });
   });
 }
 
@@ -159,26 +186,3 @@ function clearRender() {
 }
 
 window.onload = setup;
-
-function makePageForEpisodesShows(episodeList) {
-  for (let i = 0; i < episodeList.length; i++) {
-    const card = createClassAndElement("div", "title-div");
-    rootElem.appendChild(card);
-
-    const seasonName = episodeList[i].name;
-    const seasonNumber = episodeList[i].id;
-    //const convertSeasonNumberToStr = String(seasonNumber).padStart(2, "0");
-    //const convertSeasonToStr = String(episodeList[i].season).padStart(2, "0");
-    ///const episodeCode = `${seasonName} S${convertSeasonToStr}-E${convertSeasonNumberToStr}`;
-    const season = createClassAndElement("h1", "title");
-    season.textContent = episodeCode;
-    card.appendChild(season);
-    const imgElement = createClassAndElement("img");
-    imgElement.setAttribute("src", episodeList[i].url.image.medium);
-    card.appendChild(imgElement);
-
-    const summary = createClassAndElement("p");
-    summary.innerHTML = episodeList[i].summary;
-    card.appendChild(summary);
-  }
-}
