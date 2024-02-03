@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+body {
+  background-color: black;
+}
 /* nave bar style section */
 .input-wrapper {
   padding: 1rem;
@@ -78,6 +81,7 @@ svg:hover {
 }
 
 .title-name-season {
+  gap: 1px;
 }
 
 img {
@@ -118,10 +122,6 @@ img {
   justify-items: center;
   line-height: 28px;
   transition: background-color 0.3s;
-}
-
-.title-div:hover {
-  /* background-color: #1e3252; */
 }
 
 h4 {
