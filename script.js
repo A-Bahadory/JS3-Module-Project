@@ -62,7 +62,7 @@ async function fetchEpisodes(currentShowsID) {
       return res.json();
     }
   } catch (error) {
-    console.error(error, "did not catch the fetch!");
+    console.error(error);
   }
 }
 
@@ -74,7 +74,7 @@ searchInput.addEventListener("input", function () {
     makeEpisodeCards(filteredEpisodes);
   } else {
     const filteredShows = filterShowsBySearchTerm(searchValue);
-    console.log(filteredShows);
+    // console.log(filteredShows);
     clearCards();
     makeShowCards(filteredShows);
   }
@@ -84,7 +84,7 @@ function getEpisodeTitleAndNumber() {
   getAllShows().then((data) => {
     const allEpisodes = data;
     allEpisodes.forEach((episode) => {
-      let option = document.createElement("option");
+      let option = createClassAndElement("option");
       option.text = ` Show ${episode.id} : ${episode.name}`;
       episodeSelect.appendChild(option);
     });
@@ -96,7 +96,7 @@ function getEpisodeTitleAndNumber() {
     const filEpi = episodesForShow.filter(
       (episode) => episode.name === episodeName
     );
-    console.log(episodeSelect);
+    // console.log(episodeSelect);
     clearCards();
     makeEpisodeCards(filEpi);
 
@@ -123,7 +123,7 @@ function filterShowsBySearchTerm() {
       show.summary.toLowerCase().includes(lowerSearchTerm)
   );
   episodeNumber.textContent = `Shows Number ${filteredShows.length}/${allShows.length}`;
-  console.log(episodeNumber.textContent);
+  // console.log(episodeNumber.textContent);
   return filteredShows;
 }
 
@@ -137,7 +137,7 @@ function filterEpisodesBySearchTerm() {
   );
 
   episodeNumber.textContent = `Episodes Number ${filteredEpisodes.length}/${episodesForShow.length}`;
-  console.log(episodeNumber.textContent);
+  // console.log(episodeNumber.textContent);
   return filteredEpisodes;
 }
 
@@ -151,23 +151,28 @@ function createClassAndElement(tag, className) {
 
 function makeEpisodeCards(episodeList) {
   for (let i = 0; i < episodeList.length; i++) {
-    const card = createClassAndElement("div", "title-div");
+    const card = createClassAndElement("div", "card-div");
     rootElem.appendChild(card);
-
     const seasonName = episodeList[i].name;
+
     const seasonNumber = episodeList[i].number ?? "";
     const convertSeasonNumberToStr = String(seasonNumber).padStart(2, "0");
 
     const convertSeasonToStr = String(episodeList[i].season).padStart(2, "0");
-    const episodeCode = `${seasonName} S${convertSeasonToStr}-E${convertSeasonNumberToStr}`;
+    const episodeCode = `${seasonName}S${convertSeasonToStr}-E${convertSeasonNumberToStr}`;
 
     const season = createClassAndElement("h1", "title");
     season.textContent = episodeCode;
-    card.appendChild(season);
-
+    const seasonNameAncTag = createClassAndElement("a", "title");
+    seasonNameAncTag.href = episodeList[i].url;
+    seasonNameAncTag.appendChild(season);
+    card.appendChild(seasonNameAncTag);
     const imgElement = createClassAndElement("img");
     imgElement.setAttribute("src", episodeList[i].image.medium);
-    card.appendChild(imgElement);
+    const aTag = createClassAndElement("a", "img");
+    aTag.href = episodeList[i].url;
+    aTag.appendChild(imgElement);
+    card.appendChild(aTag);
     const summary = createClassAndElement("h4");
     summary.innerHTML = episodeList[i].summary;
     card.appendChild(summary);
@@ -176,20 +181,23 @@ function makeEpisodeCards(episodeList) {
 
 function makeShowCards(showList) {
   for (let i = 0; i < showList.length; i++) {
-    // console.log(showList[i].url);
     const showItem = showList[i];
-    const card = createClassAndElement("div", "title-div");
+    const showInfo = `rating: ${showItem.rating.average}/status: ${showItem.status}/genres: ${showItem.genres}/ runtime: ${showItem.runtime} `;
+    const card = createClassAndElement("div", "card-div");
     rootElem.appendChild(card);
-
-    const showName = showItem.name;
-
+    const showName = `${showItem.name}
+    ${showItem.rating.average} ⭐️`;
     const show = createClassAndElement("h1", "title");
-    show.textContent = showName;
-    card.appendChild(show);
-    const aTag = createClassAndElement("a");
-    aTag.href = showList[i].url;
-    const imgElement = createClassAndElement("img");
+    const titleAnTag = createClassAndElement("a", "title");
 
+    titleAnTag.href = showList[i].url;
+    show.textContent = showName;
+    titleAnTag.appendChild(show);
+    card.appendChild(titleAnTag);
+    const aTag = createClassAndElement("a", "img");
+    aTag.href = showList[i].url;
+
+    const imgElement = createClassAndElement("img");
     imgElement.setAttribute("src", showItem.image.medium);
     aTag.appendChild(imgElement);
     card.appendChild(aTag);

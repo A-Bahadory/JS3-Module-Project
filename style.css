@@ -74,8 +74,8 @@ svg:hover {
 
 .layout {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, auto));
-  gap: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, auto));
+  /* gap: 3rem; */
   padding: 2rem;
   background-color: black;
 }
@@ -84,7 +84,7 @@ svg:hover {
   gap: 1px;
 }
 
-img {
+.img {
   grid-column: 1/-1;
   grid-row: 2/3;
   height: -webkit-fill-available;
@@ -92,7 +92,7 @@ img {
   transition: transform 0.3s ease-in-out; /* Added transition for smooth effect */
 }
 
-.title-div:hover img {
+.card-div:hover img {
   transform: scale(1.05); /* Increased size on hover */
   box-shadow: 1px 4px 46px 15px #026;
 }
@@ -102,32 +102,32 @@ img {
 }
 
 .title {
-  grid-column: 1/-1;
-  grid-row: 1/2;
-  font-size: 21px;
+  grid-column: 2/-1;
   font-family: math;
-  padding: 0.9rem;
   color: honeydew;
+  text-decoration: none;
 }
 .title:hover {
   text-decoration: underline;
+  color: red;
+  font-weight: 400;
 }
 
-.title-div {
+.card-div {
   display: block;
   background-color: black;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(3, 6rem 1fr 0);
+  grid-template-rows: repeat(2, 6rem 1fr 0);
   justify-items: center;
-  line-height: 28px;
+  line-height: 17px;
   transition: background-color 0.3s;
+  row-gap: 5px;
 }
 
 h4 {
-  grid-column: 1/-1;
+  grid-column: 2/-1;
   color: honeydew;
-  padding: 0.3rem;
 }
 
 /* footer style section */
