@@ -137,7 +137,6 @@ function filterEpisodesBySearchTerm() {
   );
 
   episodeNumber.textContent = `Episodes Number ${filteredEpisodes.length}/${episodesForShow.length}`;
-  // console.log(episodeNumber.textContent);
   return filteredEpisodes;
 }
 
@@ -185,15 +184,23 @@ function makeShowCards(showList) {
     const showInfo = `rating: ${showItem.rating.average}/status: ${showItem.status}/genres: ${showItem.genres}/ runtime: ${showItem.runtime} `;
     const card = createClassAndElement("div", "card-div");
     rootElem.appendChild(card);
-    const showName = `${showItem.name}
-    ${showItem.rating.average} ⭐️`;
+    const titleWrapper = createClassAndElement("div", "title-wrapper");
+    card.appendChild(titleWrapper);
+    const showName = showItem.name;
     const show = createClassAndElement("h1", "title");
     const titleAnTag = createClassAndElement("a", "title");
 
     titleAnTag.href = showList[i].url;
     show.textContent = showName;
+    const showRatingAndStatus = createClassAndElement("h2");
+    showRatingAndStatus.textContent = `${showItem.rating.average}-⭐️ /Show${showItem.status}`;
+    titleWrapper.appendChild(showRatingAndStatus);
+
+    const showRuntimeAndGenres = createClassAndElement("h3");
+    showRuntimeAndGenres.textContent = `${showItem.genres}/ minutes${showItem.runtime}`;
+    titleWrapper.appendChild(showRuntimeAndGenres);
     titleAnTag.appendChild(show);
-    card.appendChild(titleAnTag);
+    titleWrapper.appendChild(titleAnTag);
     const aTag = createClassAndElement("a", "img");
     aTag.href = showList[i].url;
 

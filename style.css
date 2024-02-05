@@ -1,10 +1,14 @@
 * {
   box-sizing: border-box;
 }
+
 body {
   background-color: black;
+  margin: 0;
 }
-/* nave bar style section */
+
+/* Navigation bar style section */
+
 .input-wrapper {
   padding: 1rem;
   display: flex;
@@ -70,12 +74,11 @@ svg:hover {
   fill: red;
 }
 
-/* layout style section */
+/* Layout style section */
 
 .layout {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(14rem, auto));
-  /* gap: 3rem; */
   padding: 2rem;
   background-color: black;
 }
@@ -88,13 +91,13 @@ svg:hover {
   grid-column: 1/-1;
   grid-row: 2/3;
   height: -webkit-fill-available;
-  box-shadow: 1px 13px 8px 9px #00000026;
   transition: transform 0.3s ease-in-out; /* Added transition for smooth effect */
 }
 
 .card-div:hover img {
   transform: scale(1.05); /* Increased size on hover */
-  box-shadow: 1px 4px 46px 15px #026;
+  box-shadow: 1px 4px 50px 15px #026;
+  /* box-shadow: 1px 4px 46px 15px darkred; */
 }
 
 .pic-summery {
@@ -103,14 +106,29 @@ svg:hover {
 
 .title {
   grid-column: 2/-1;
-  font-family: math;
-  color: honeydew;
   text-decoration: none;
+  font-size: 20px;
+  color: whitesmoke;
+  line-height: 23px;
 }
+
 .title:hover {
   text-decoration: underline;
   color: red;
   font-weight: 400;
+}
+
+.title-wrapper {
+  grid-column: 1/-1;
+  font-size: 10px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  color: whitesmoke;
+  line-height: 3px;
+  padding: 1rem;
 }
 
 .card-div {
@@ -118,11 +136,16 @@ svg:hover {
   background-color: black;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(2, 6rem 1fr 0);
+  grid-template-rows: repeat(2, 8rem 1fr 0);
   justify-items: center;
   line-height: 17px;
   transition: background-color 0.3s;
   row-gap: 5px;
+}
+
+.card-div:hover {
+  border-left: solid darkred 0.1px;
+  border-right: solid darkred 0.1px;
 }
 
 h4 {
@@ -130,17 +153,25 @@ h4 {
   color: honeydew;
 }
 
-/* footer style section */
+/* Footer style section */
 
 .footer-wrapper {
   display: grid;
   grid-template-rows: 7rem;
   background-color: red;
   text-align: center;
-  /* position: fixed; */
   bottom: 0;
   width: 100%;
   color: honeydew;
   margin-top: 3rem;
   border: yellow solid 4px;
+}
+
+/* Media Queries for responsiveness */
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: repeat(2, 226px);
+    gap: 1rem;
+  }
 }
