@@ -1,10 +1,9 @@
-const rootElem = document.getElementById("root");
+const rootElem = document.querySelector(".layout");
 const searchWrapper = document.querySelector(".search-wrapper");
 const searchInput = document.querySelector("#search-input");
 const episodeNumber = document.querySelector(".episodes-numbers");
 const inputWrapper = document.querySelector(".input-wrapper");
-// inputWrapper.appendChild(episodeNumber);
-const episodeSelect = document.getElementById("episodeSelect");
+// const episodeSelect = document.getElementById("episodeSelect");
 const homePageBtn = document.querySelector(".btn");
 const showDropDown = document.getElementById("showDropdown");
 let allShows;
@@ -27,6 +26,7 @@ async function setup() {
     makeShowCards(allShows);
     footerRender();
     homePageBtn.addEventListener("click", function () {
+      rootElem.removeAttribute("id");
       clearCards();
       makeShowCards(allShows);
     });
@@ -45,7 +45,9 @@ function populateShowDropdown(data) {
     fetchEpisodes(showId).then((episodes) => {
       showingEpisodes = true;
       episodesForShow = episodes;
+      rootElem.setAttribute("id", "root");
       clearCards();
+
       makeEpisodeCards(episodesForShow);
     });
   });
