@@ -3,12 +3,12 @@ const searchWrapper = document.querySelector(".search-wrapper");
 const searchInput = document.querySelector("#search-input");
 const episodeNumber = document.querySelector(".episodes-numbers");
 const inputWrapper = document.querySelector(".input-wrapper");
-// const episodeSelect = document.getElementById("episodeSelect");
 const homePageBtn = document.querySelector(".btn");
 const showDropDown = document.getElementById("showDropdown");
 let allShows;
 let episodesForShow;
 let showingEpisodes = false;
+let runtime = "Minutes";
 
 async function getAllShows() {
   const movieUrl = "https://api.tvmaze.com/shows";
@@ -183,7 +183,7 @@ function makeEpisodeCards(episodeList) {
 function makeShowCards(showList) {
   for (let i = 0; i < showList.length; i++) {
     const showItem = showList[i];
-    const showInfo = `rating: ${showItem.rating.average}/status: ${showItem.status}/genres: ${showItem.genres}/ runtime: ${showItem.runtime} `;
+    //const showInfo = `rating: ${showItem.rating.average}/status: ${showItem.status}/genres: ${showItem.genres}/ runtime: ${showItem.runtime} `;
     const card = createClassAndElement("div", "card-div");
     rootElem.appendChild(card);
     const titleWrapper = createClassAndElement("div", "title-wrapper");
@@ -199,23 +199,58 @@ function makeShowCards(showList) {
     titleWrapper.appendChild(showRatingAndStatus);
 
     const showRuntimeAndGenres = createClassAndElement("h3");
-    showRuntimeAndGenres.textContent = `${showItem.genres}/ minutes${showItem.runtime}`;
+    showRuntimeAndGenres.textContent = `${showItem.genres}/ Minutes: ${showItem.runtime}`;
     titleWrapper.appendChild(showRuntimeAndGenres);
     titleAnTag.appendChild(show);
     titleWrapper.appendChild(titleAnTag);
-    const aTag = createClassAndElement("a", "img");
-    aTag.href = showList[i].url;
-
     const imgElement = createClassAndElement("img");
     imgElement.setAttribute("src", showItem.image.medium);
-    aTag.appendChild(imgElement);
-    card.appendChild(aTag);
+    card.appendChild(imgElement);
+
+    imgElement.addEventListener("click", async function () {
+      const showId = showItem.id;
+      fetchEpisodes(showId).then((episodes) => {
+        showingEpisodes = true;
+        episodesForShow = episodes;
+        rootElem.setAttribute("id", "root");
+        clearCards();
+        makeEpisodeCards(episodesForShow);
+      });
+    });
 
     const summary = createClassAndElement("h4");
     summary.innerHTML = showItem.summary;
     card.appendChild(summary);
   }
 }
+
+// function makeShowCards(showList) {
+//   for (let i = 0; i < showList.length; i++) {
+//     const showItem = showList[i];
+//     const card = createClassAndElement("div", "card-div");
+//     rootElem.appendChild(card);
+
+//     // Create and append other elements...
+
+//     const imgElement = createClassAndElement("img");
+//     imgElement.setAttribute("src", showItem.image.medium);
+//     card.appendChild(imgElement);
+
+//     // Add event listener to imgElement
+//     imgElement.addEventListener("click", async function () {
+//       const showId = showItem.id;
+//       fetchEpisodes(showId).then((episodes) => {
+//         showingEpisodes = true;
+//         episodesForShow = episodes;
+//         rootElem.setAttribute("id", "root");
+//         clearCards();
+//         makeEpisodeCards(episodesForShow);
+//       });
+//     });
+
+//     // Create and append other elements...
+//   }
+// }
 
 async function footerRender() {
   const footerWrapper = createClassAndElement("div", "footer-wrapper");

@@ -89,11 +89,12 @@ svg:hover {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16rem, auto));
   padding: 5rem;
-  background-color: darkred;
+  background-color: black;
 }
 .layout {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(14rem, auto));
+  gap: 1rem;
   padding: 2rem;
   background-color: black;
 }
@@ -102,10 +103,14 @@ svg:hover {
   gap: 1px;
 }
 
+img {
+  grid-column: 1/-1;
+  grid-row: 2/3;
+  transition: transform 0.3s ease-in-out; /* Added transition for smooth effect */
+}
 .img {
   grid-column: 1/-1;
   grid-row: 2/3;
-  height: -webkit-fill-available;
   transition: transform 0.3s ease-in-out; /* Added transition for smooth effect */
 }
 
@@ -135,7 +140,7 @@ svg:hover {
 
 .title-wrapper {
   grid-column: 1/-1;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 500;
   display: flex;
   flex-direction: column-reverse;
@@ -150,8 +155,7 @@ svg:hover {
   display: block;
   background-color: black;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(2, 8rem 1fr 0);
+  grid-template-rows: 8rem 16rem auto;
   justify-items: center;
   line-height: 17px;
   transition: background-color 0.3s;
@@ -161,13 +165,13 @@ svg:hover {
 .card-div:hover {
   border-left: solid darkred 0.1px;
   border-right: solid darkred 0.1px;
+  grid-template-rows: 8rem 16rem;
 }
 
 h4 {
-  grid-column: 2/-1;
+  /* grid-column: 2/-1; */
   color: honeydew;
 }
-
 /* Footer style section */
 
 .footer-wrapper {
@@ -189,4 +193,8 @@ h4 {
     grid-template-columns: repeat(2, 226px);
     gap: 1rem;
   }
+}
+
+h4 {
+  padding: 1.6rem;
 }
