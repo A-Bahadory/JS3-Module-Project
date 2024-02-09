@@ -41,7 +41,7 @@ body {
 svg {
   grid-column: 2/3;
   fill: whitesmoke;
-  width: 3.4rem;
+  width: 3rem;
   transition: fill
     linear(
       0 0%,
@@ -177,13 +177,13 @@ h4 {
 .footer-wrapper {
   display: grid;
   grid-template-rows: 7rem;
-  background-color: red;
+  background-color: black;
   text-align: center;
   bottom: 0;
   width: 100%;
   color: honeydew;
-  margin-top: 3rem;
-  border: yellow solid 4px;
+  border-top: darkred solid 0.5px;
+  border-bottom: darkred solid 4px;
 }
 
 /* Media Queries for responsiveness */

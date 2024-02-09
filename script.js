@@ -26,13 +26,20 @@ async function setup() {
     totalEpisodes = allShows.length;
     makeShowCards(allShows);
     footerRender();
-    homePageBtn.addEventListener("click", function () {
-      rootElem.removeAttribute("id");
-      clearCards();
-      makeShowCards(allShows);
-    });
+    searchShowsInputEventListener()
+    filterShowsBySearchTerm()
+    
   });
 }
+
+homePageBtn.addEventListener("click", function () {
+  rootElem.removeAttribute("id");
+  clearCards();
+  makeShowCards(allShows);
+  searchShowsInputEventListener()
+  filterShowsBySearchTerm()
+});
+
 
 function populateShowDropdown(data) {
   data.forEach((show) => {
@@ -48,8 +55,10 @@ function populateShowDropdown(data) {
       episodesForShow = episodes;
       rootElem.setAttribute("id", "root");
       clearCards();
-
       makeEpisodeCards(episodesForShow);
+      filterShowsBySearchTerm()
+      searchEpisodesInputEventListener()
+      
     });
   });
 }
@@ -68,20 +77,42 @@ async function fetchEpisodes(currentShowsID) {
     console.error(error);
   }
 }
+// function searchInputEventListener(){
+// searchInput.addEventListener("input", function () {
+//   const searchValue = searchInput.value;
+//   if (showingEpisodes) {
+//     const filteredEpisodes = filterEpisodesBySearchTerm(searchValue);
+//     clearCards();
+//     makeEpisodeCards(filteredEpisodes);
+//   } else {
+//     const filteredShows = filterShowsBySearchTerm(searchValue);
+//     // console.log(filteredShows);
+//     clearCards();
+//     makeShowCards(filteredShows);
+//   }
+// });
+// }
 
-searchInput.addEventListener("input", function () {
-  const searchValue = searchInput.value;
-  if (showingEpisodes) {
-    const filteredEpisodes = filterEpisodesBySearchTerm(searchValue);
-    clearCards();
-    makeEpisodeCards(filteredEpisodes);
-  } else {
-    const filteredShows = filterShowsBySearchTerm(searchValue);
-    // console.log(filteredShows);
-    clearCards();
-    makeShowCards(filteredShows);
-  }
-});
+function searchShowsInputEventListener() {
+  searchInput.addEventListener("input", function () {
+      const searchValue = searchInput.value;
+      const filteredShows = filterShowsBySearchTerm(searchValue);
+      clearCards();
+      makeShowCards(filteredShows);
+  });
+}
+
+
+function searchEpisodesInputEventListener() {
+  searchInput.addEventListener("input", function () {
+      const searchValue = searchInput.value;
+      const filteredEpisodes = filterEpisodesBySearchTerm(searchValue);
+      clearCards();
+      makeEpisodeCards(filteredEpisodes);
+  });
+}
+
+
 
 function getEpisodeTitleAndNumber() {
   getAllShows().then((data) => {
@@ -196,7 +227,7 @@ function makeShowCards(showList) {
     titleAnTag.href = showList[i].url;
     show.textContent = showName;
     const showRatingAndStatus = createClassAndElement("h2");
-    showRatingAndStatus.textContent = `${showItem.rating.average}-⭐️ /Show${showItem.status}`;
+    showRatingAndStatus.textContent = `${showItem.rating.average} ⭐️ /Show${showItem.status}`;
     titleWrapper.appendChild(showRatingAndStatus);
 
     const showRuntimeAndGenres = createClassAndElement("h3");
@@ -216,6 +247,7 @@ function makeShowCards(showList) {
         rootElem.setAttribute("id", "root");
         clearCards();
         makeEpisodeCards(episodesForShow);
+        searchEpisodesInputEventListener()
       });
     });
 
@@ -224,34 +256,6 @@ function makeShowCards(showList) {
     card.appendChild(summary);
   }
 }
-
-// function makeShowCards(showList) {
-//   for (let i = 0; i < showList.length; i++) {
-//     const showItem = showList[i];
-//     const card = createClassAndElement("div", "card-div");
-//     rootElem.appendChild(card);
-
-//     // Create and append other elements...
-
-//     const imgElement = createClassAndElement("img");
-//     imgElement.setAttribute("src", showItem.image.medium);
-//     card.appendChild(imgElement);
-
-//     // Add event listener to imgElement
-//     imgElement.addEventListener("click", async function () {
-//       const showId = showItem.id;
-//       fetchEpisodes(showId).then((episodes) => {
-//         showingEpisodes = true;
-//         episodesForShow = episodes;
-//         rootElem.setAttribute("id", "root");
-//         clearCards();
-//         makeEpisodeCards(episodesForShow);
-//       });
-//     });
-
-//     // Create and append other elements...
-//   }
-// }
 
 async function footerRender() {
   const footerWrapper = createClassAndElement("div", "footer-wrapper");
@@ -266,3 +270,7 @@ function clearCards() {
 }
 
 window.onload = setup;
+
+
+
+
