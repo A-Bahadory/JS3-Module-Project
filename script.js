@@ -68,19 +68,20 @@ async function fetchEpisodes(currentShowsID) {
   }
 }
 
-searchInput.addEventListener("input", function () {
-  const searchValue = searchInput.value;
-  if (showingEpisodes) {
-    const filteredEpisodes = filterEpisodesBySearchTerm(searchValue);
-    clearCards();
-    makeEpisodeCards(filteredEpisodes);
-  } else {
-    const filteredShows = filterShowsBySearchTerm(searchValue);
-    // console.log(filteredShows);
-    clearCards();
-    makeShowCards(filteredShows);
-  }
-});
+function searchInputEventListener() {
+  searchInput.addEventListener("input", function () {
+    const searchValue = searchInput.value;
+    if (showingEpisodes) {
+      const filteredEpisodes = filterEpisodesBySearchTerm(searchValue);
+      clearCards();
+      makeEpisodeCards(filteredEpisodes);
+    } else {
+      const filteredShows = filterShowsBySearchTerm(searchValue);
+      clearCards();
+      makeShowCards(filteredShows);
+    }
+  });
+}
 
 function getEpisodeTitleAndNumber() {
   getAllShows().then((data) => {
