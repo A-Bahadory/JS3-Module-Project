@@ -5,6 +5,7 @@ const episodeNumber = document.querySelector(".episodes-numbers");
 const inputWrapper = document.querySelector(".input-wrapper");
 const homePageBtn = document.querySelector(".btn");
 const showDropDown = document.getElementById("showDropdown");
+const episodeDropDown = document.getElementById("episodes-dropdown");
 let allShows;
 let episodesForShow;
 let showingEpisodes = false;
@@ -85,6 +86,13 @@ function searchEpisodesInputEventListener() {
     makeEpisodeCards(filteredEpisodes);
   });
 }
+
+function episodeDropDownEventListener() {
+  episodeDropDown.addEventListener("click", function () {
+    console.log();
+  });
+}
+
 function getEpisodeTitleAndNumber() {
   getAllShows().then((data) => {
     const allEpisodes = data;
@@ -123,7 +131,7 @@ function filterShowsBySearchTerm() {
       show.summary.toLowerCase().includes(lowerSearchTerm)
   );
   episodeNumber.textContent = `Shows Number ${filteredShows.length}/${allShows.length}`;
-  // console.log(episodeNumber.textContent);
+
   return filteredShows;
 }
 function filterEpisodesBySearchTerm() {
@@ -152,6 +160,11 @@ function makeEpisodeCards(episodeList) {
     const convertSeasonNumberToStr = String(seasonNumber).padStart(2, "0");
     const convertSeasonToStr = String(episodeList[i].season).padStart(2, "0");
     const episodeCode = `${seasonName}S${convertSeasonToStr}-E${convertSeasonNumberToStr}`;
+    // dropdown stuff
+    const option = createClassAndElement("option");
+    option.textContent = episodeCode;
+    episodeDropDown.appendChild(option);
+    //end of dd
     const season = createClassAndElement("h1", "title");
     season.textContent = episodeCode;
     const seasonNameAncTag = createClassAndElement("a", "title");
