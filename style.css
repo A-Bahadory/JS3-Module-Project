@@ -9,16 +9,15 @@ body {
 
 /* Navigation bar style section */
 
-.input-wrapper {
+nav {
   display: grid;
   grid-template-columns: repeat(13, 123px);
   grid-template-rows: 1 100px;
   border-bottom: dotted 1px darkred;
-  /* position: fixed; */
 }
 
 #search-input {
-  grid-column: 6/7;
+  grid-column: 6/8;
   height: 2rem;
   margin-top: 2rem;
 }
@@ -26,12 +25,12 @@ body {
   color: black;
 }
 #showDropdown {
-  grid-column: 8/10;
+  grid-column: 9/10;
   height: 2rem;
   margin-top: 2rem;
 }
 #episodes-dropdown {
-  grid-column: 11/-1;
+  grid-column: 11/12;
   height: 2rem;
   margin-top: 2rem;
 }
@@ -189,6 +188,16 @@ h4 {
   border-top: darkred solid 0.5px;
   border-bottom: darkred solid 4px;
 }
+.footer-wrapper,
+a {
+  text-decoration: none;
+  color: whitesmoke;
+}
+.footer-wrapper,
+a:hover {
+  color: yellow;
+  text-decoration: underline;
+}
 
 /* Media Queries for responsiveness */
 
@@ -196,6 +205,19 @@ h4 {
   .layout {
     grid-template-columns: repeat(2, 226px);
     gap: 1rem;
+  }
+
+  nav {
+    display: grid;
+    grid-template-columns: repeat(13, 123px);
+    grid-template-rows: 1 100px;
+    border-bottom: dotted 1px darkred;
+  }
+  #root {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, auto));
+    padding: 5rem;
+    background-color: black;
   }
 }
 
