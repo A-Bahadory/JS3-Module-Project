@@ -1,4 +1,5 @@
 const rootElem = document.querySelector(".layout");
+const titleElem = document.querySelector("#title");
 const searchWrapper = document.querySelector(".search-wrapper");
 const searchInput = document.querySelector("#search-input");
 const episodeNumber = document.querySelector(".episodes-numbers");
@@ -9,6 +10,7 @@ episodeDropDown.style.display = "None";
 let allShows;
 let episodesForShow;
 let showingEpisodes = false;
+let titlePass = "";
 
 async function getAllShows() {
   const movieUrl = "https://api.tvmaze.com/shows";
@@ -30,6 +32,7 @@ async function setup() {
   });
 }
 homePageBtn.addEventListener("click", function () {
+  titleElem.textContent = "";
   rootElem.removeAttribute("id");
   clearCards();
   showDropDown.style.display = "Block";
@@ -185,6 +188,9 @@ function createClassAndElement(tag, className) {
 }
 
 function makeEpisodeCards(episodeList) {
+  // titleElem.removeChild();
+  titleElem.textContent = titlePass;
+  titleElem.className = "title-pass";
   for (let i = 0; i < episodeList.length; i++) {
     const card = createClassAndElement("div", "card-div");
     rootElem.appendChild(card);
@@ -219,6 +225,7 @@ function makeEpisodeCards(episodeList) {
 }
 
 function makeShowCards(showList) {
+  titlePass = "";
   for (let i = 0; i < showList.length; i++) {
     const showItem = showList[i];
     const card = createClassAndElement("div", "card-div");
@@ -242,6 +249,7 @@ function makeShowCards(showList) {
     imgElement.setAttribute("src", showItem.image.medium);
     card.appendChild(imgElement);
     imgElement.addEventListener("click", async function () {
+      titlePass = showName;
       const showId = showItem.id;
       fetchEpisodes(showId).then((episodes) => {
         showingEpisodes = true;
@@ -254,7 +262,10 @@ function makeShowCards(showList) {
       });
     });
     const summary = createClassAndElement("h4");
-    summary.innerHTML = showItem.summary;
+    summary.innerHTML =
+      showItem.summary.length > 150
+        ? showItem.summary.slice(0, 150) + " ...."
+        : showItem.summary;
     card.appendChild(summary);
   }
 }
